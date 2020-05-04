@@ -32,7 +32,7 @@ import simpy
 from .Failure import Failure
 from .CoreObject import CoreObject
 
-from .Router import Router
+from .OperatorRouter import Router
 from .SkilledOperatorRouter import SkilledRouter
 
 from .OperatedPoolBroker import Broker
