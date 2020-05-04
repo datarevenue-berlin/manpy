@@ -23,7 +23,7 @@ ManPy ported to Python 3
 * Documentation: https://manpy.readthedocs.io.
 
 * PDF Documentation: `ManPy Doc`_
-    .. _`ManPy Doc`: "docs/Manpy_documentation.pdf"
+    .. _`ManPy Doc`: docs/Manpy_documentation.pdf
 
 Features
 --------
