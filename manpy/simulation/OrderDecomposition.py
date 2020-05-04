@@ -61,7 +61,7 @@ class OrderDecomposition(CoreObject):
         self.next = []
         CoreObject.initialize(self)  # using the default CoreObject Functionality
         self.Res = simpy.Resource(
-            self.env, "inf"
+            self.env, float("inf")
         )  # initialize the Internal resource (Queue) functionality. This is a dummy object so
         # infinite capacity is assumed
         self.newlyCreatedComponents = (

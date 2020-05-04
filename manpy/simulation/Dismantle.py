@@ -141,7 +141,7 @@ class Dismantle(CoreObject):
         self.nameLastEntityEnded = (
             ""  # holds the name of the last frame that ended processing in the object
         )
-        self.Res = simpy.Resource(self.env, capacity="inf")
+        self.Res = simpy.Resource(self.env, capacity=float("inf"))
         self.Res.users = []
 
     #         self.Res.waitQ=[]

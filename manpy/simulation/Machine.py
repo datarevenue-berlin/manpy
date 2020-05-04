@@ -32,7 +32,7 @@ import simpy
 from .Failure import Failure
 from .CoreObject import CoreObject
 
-from .OperatorRouter import Router
+from .Router import Router
 from .SkilledOperatorRouter import SkilledRouter
 
 from .OperatedPoolBroker import Broker
@@ -1065,7 +1065,7 @@ class Machine(CoreObject):
                 activeEntity.schedule[-1]["exitTime"] = self.env.now
         # reseting variables used by operation() process
         self.totalOperationTime = None
-        self.timeLastOperationStarted = None
+        self.timeLastOperationStarted = 0
         # reseting flags
         self.shouldPreempt = False
         # reset the variables used to handle the interruptions timing
