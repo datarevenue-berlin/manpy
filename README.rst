@@ -22,6 +22,8 @@ ManPy ported to Python 3
 * Free software: MIT license
 * Documentation: https://manpy.readthedocs.io.
 
+* PDF Documentation: `ManPy Doc`_
+    .. _`ManPy Doc`: "docs/Manpy_documentation.pdf"
 
 Features
 --------
