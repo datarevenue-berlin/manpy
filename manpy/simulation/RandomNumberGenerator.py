@@ -128,7 +128,8 @@ class RandomNumberGenerator(object):
                 number = G.Rnd.normalvariate(self.mean, self.stdev)
                 if (
                     number > self.max or number < self.min and max != 0
-                ):  # if the number is out of bounds repeat the process                                                                      #if max=0 this means that we did not have time "time" bounds
+                ):  # if the number is out of bounds repeat the process
+                    ##if max=0 this means that we did not have time "time" bounds
                     continue
                 else:  # if the number is in the limits stop the process
                     return number
