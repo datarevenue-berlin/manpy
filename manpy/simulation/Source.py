@@ -21,6 +21,7 @@ Created on 8 Nov 2012
 
 @author: George
 """
+from .Entity import Entity
 
 """
 models the source object that generates the entities
@@ -119,9 +120,10 @@ class Source(CoreObject):
         self.type = "Source"  # String that shows the type of object
         self.rng = RandomNumberGenerator(self, interArrivalTime)
 
-        self.item = Globals.getClassFromName(
-            entity
-        )  # the type of object that the Source will generate
+        if isinstance(entity, str):
+            self.item = Globals.getClassFromName(entity)
+        elif isinstance(entity, Entity) or issubclass(entity, Entity):
+            self.item = entity
 
         self.scheduledEntities = (
             []

@@ -118,7 +118,7 @@ class ManPyObject(object):
         charLimit = 60
         remainingChar = charLimit - len(entity) - len(str(time))
         if G.console == "Yes":
-            # print(time, entity, end=" ")
+            #print(time, entity, end=" ")
             for key in kw:
                 if key not in Globals.getSupportedPrintKwrds():
                     raise ValueError("Unsupported phrase %s for %s" % (key, entity))

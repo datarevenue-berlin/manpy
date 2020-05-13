@@ -552,8 +552,8 @@ class CoreObject(ManPyObject):
             x
             for x in activeObject.next
             if x.canAccept(activeObject)
-               and not x.isRequested.triggered
-               and x.expectedSignals["isRequested"]
+            and not x.isRequested.triggered
+            and x.expectedSignals["isRequested"]
         ]:
             receivers.append(object)
         return receivers
@@ -639,11 +639,11 @@ class CoreObject(ManPyObject):
             x
             for x in activeObject.previous
             if (not x is activeObject)
-               and not x.canDispose.triggered
-               and (
-                   x.expectedSignals["canDispose"]
-                   or (x.canDeliverOnInterruption and x.timeLastShiftEnded == x.env.now)
-               )
+            and not x.canDispose.triggered
+            and (
+                x.expectedSignals["canDispose"]
+                or (x.canDeliverOnInterruption and x.timeLastShiftEnded == x.env.now)
+            )
         ]:  # extra check.If shift ended right now and the object
             # can unload we relax the canDispose flag
             if object.haveToDispose(activeObject):
