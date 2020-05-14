@@ -205,6 +205,7 @@ class Assembly(CoreObject):
 
                 self.outputTrace(
                     self.getActiveObjectQueue()[0].name,
+                    self.getActiveObjectQueue()[0].id,
                     "is now full in " + self.objName,
                 )
 
@@ -222,6 +223,7 @@ class Assembly(CoreObject):
 
                 self.outputTrace(
                     self.getActiveObjectQueue()[0].name,
+                    self.getActiveObjectQueue()[0].id,
                     "ended processing in " + self.objName,
                 )
                 self.timeLastEntityEnded = self.env.now
@@ -421,7 +423,7 @@ class Assembly(CoreObject):
         # remove the entity from the previews object
         giverObject.removeEntity(activeEntity)
         self.printTrace(activeEntity.name, enter=self.id)
-        self.outputTrace(activeEntity.name, "got into " + self.objName)
+        self.outputTrace(activeEntity.name, activeEntity.id, "got into " + self.objName)
         # if the type is Frame
         if activeEntity.type == "Frame":
             self.nameLastEntityEntered = activeEntity.name

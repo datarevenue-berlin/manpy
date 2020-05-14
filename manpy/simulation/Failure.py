@@ -177,7 +177,7 @@ class Failure(ObjectInterruption):
                     self.sendSignal(receiver=oi, signal=oi.victimFailed)
             self.victim.Up = False
             self.victim.timeLastFailure = self.env.now
-            self.outputTrace(self.victim.name, "is down")
+            self.outputTrace(self.victim.name, self.victim.id, "is down")
             # update the failure time
             failTime = self.env.now
             if (
@@ -198,7 +198,7 @@ class Failure(ObjectInterruption):
                     self.victim.totalFailureTime += self.env.now - failTime
                     self.reactivateVictim()  # since repairing is over, the Machine is reactivated
                     self.victim.Up = True
-                    self.outputTrace(self.victim.name, "is up")
+                    self.outputTrace(self.victim.name, self.victim.id, "is up")
 
                     self.repairman.totalWorkingTime += (
                         self.env.now - timeOperationStarted
@@ -231,4 +231,4 @@ class Failure(ObjectInterruption):
                 self.victim.totalFailureTime += self.env.now - failTime
             self.reactivateVictim()  # since repairing is over, the Machine is reactivated
             self.victim.Up = True
-            self.outputTrace(self.victim.name, "is up")
+            self.outputTrace(self.victim.name, self.victim.id,  "is up")

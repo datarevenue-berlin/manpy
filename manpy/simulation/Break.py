@@ -154,7 +154,7 @@ class Break(ObjectInterruption):
 
             self.victim.timeLastBreakStarted = self.env.now
             self.victim.onBreak = True  # get the victim on break
-            self.outputTrace(self.victim.name, "starts break")
+            self.outputTrace(self.victim.name, self.victim.id, "starts break")
             # update the break time
             breakTime = self.env.now
 
@@ -176,10 +176,10 @@ class Break(ObjectInterruption):
                 # reset the signalparam of the victimOffShift event
                 self.victimOffShift = self.env.event()
                 self.outputTrace(
-                    self.victim.name, "went off-shift so not on break anymore"
+                    self.victim.name, self.victim.id, "went off-shift so not on break anymore"
                 )
             else:
-                self.outputTrace(self.victim.name, "returns from break")
+                self.outputTrace(self.victim.name, self.victim.id, "returns from break")
 
             if issubclass(self.victim.__class__, CoreObject):
                 self.reactivateVictim()  # re-activate the victim in case it was interrupted

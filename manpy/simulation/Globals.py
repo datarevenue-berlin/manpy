@@ -61,7 +61,7 @@ class G:
     traceSheet = traceFile.add_sheet(
         "sheet " + str(sheetIndex), cell_overwrite_ok=True
     )  # create excel sheet
-
+    trace_list = []
     # variables for excel output
     outputIndex = 0  # index that shows in what row we are
     sheetIndex = 1  # index that shows in what sheet we are
@@ -224,7 +224,7 @@ def setWIP(entityList):
     # for all the entities in the entityList
     for entity in entityList:
         # if the entity is of type Part
-        if entity.type in ["Part", "Batch", "SubBatch", "CapacityEntity"]:
+        if entity.type in ["Part", "Batch", "SubBatch", "CapacityEntity", "Vehicle"]:
             # these entities have to have a currentStation.
             # TODO apply a more generic approach so that all need to have
             if entity.currentStation:
@@ -310,6 +310,7 @@ def setWIP(entityList):
             if entity.currentStation.class_name:
                 stationClass = entity.currentStation.__class__.__name__
                 if stationClass in [
+                    "ProductionPoint",
                     "Machine",
                     "BatchScrapMachine",
                     "MachineJobShop",
@@ -456,6 +457,8 @@ def runSimulation(
     G.ObjList = []
     G.ObjectInterruptionList = []
     G.ObjectResourceList = []
+    G.trace_list = []
+
     from .CoreObject import CoreObject
     from .ObjectInterruption import ObjectInterruption
     from .ObjectResource import ObjectResource

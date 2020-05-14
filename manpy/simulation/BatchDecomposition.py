@@ -274,7 +274,7 @@ class BatchDecomposition(CoreObject):
                 numberOfUnits=numberOfSubBatchUnits,
                 parentBatch=activeEntity,
             )  # create the sub-batch
-            self.outputTrace(subBatch.name, "was created from " + activeEntity.name)
+            self.outputTrace(subBatch.name, subBatch.id, "was created from " + activeEntity.name)
             # ===================================================================
             # TESTING
             #             print self.env.now, subBatch.name,'was created from '+ activeEntity.name

@@ -89,7 +89,7 @@ class ScheduledBreak(ObjectInterruption):
             self.requestAllocation()
 
             self.victim.timeLastBreakStarted = self.env.now
-            self.outputTrace(self.victim.name, "is on break")
+            self.outputTrace(self.victim.name, self.victim.id,  "is on break")
 
         while 1:
             if not self.victim.onBreak:
@@ -141,7 +141,7 @@ class ScheduledBreak(ObjectInterruption):
 
                 self.victim.onBreak = True  # get the victim off-shift
                 self.victim.timeLastBreakStarted = self.env.now
-                self.outputTrace(self.victim.name, "is on break")
+                self.outputTrace(self.victim.name, self.victim.id, "is on break")
             else:
                 assert self.remainingBreakPattern[0][1] > self.env.now, (
                     "Incorrect shift defined for %s (%s)"
@@ -155,7 +155,7 @@ class ScheduledBreak(ObjectInterruption):
                     self.env.now - self.victim.timeLastBreakStarted
                 )
                 self.victim.timeLastBreakEnded = self.env.now
-                self.outputTrace(self.victim.name, "returned from break")
+                self.outputTrace(self.victim.name, self.victim.id, "returned from break")
                 if self.victim.schedule:
                     if not self.victim.schedule[-1].get("exitTime", None):
                         self.victim.schedule[-1]["exitTime"] = self.env.now

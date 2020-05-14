@@ -67,7 +67,7 @@ class EntityGenerator(object):
                     self.victim
                 )  # update the current station of the Entity
                 G.EntityList.append(entity)
-                self.victim.outputTrace(entity.name, "generated")  # output the trace
+                self.victim.outputTrace(entity_name=entity.name, entity_id=entity.id, message="generated")  # output the trace
                 self.victim.getActiveObjectQueue().append(
                     entity
                 )  # append the entity to the resource
@@ -85,7 +85,9 @@ class EntityGenerator(object):
                 )  # this is used just ot output the trace correctly
                 self.victim.scheduledEntities.append(self.env.now)
                 self.victim.outputTrace(
-                    self.victim.item.type + str(entityCounter), "generated"
+                    f"{self.victim.item.type} {entityCounter}",
+                    f"{self.victim.item.type} {entityCounter}",
+                    "generated"
                 )  # output the trace
             yield self.env.timeout(
                 self.victim.calculateInterArrivalTime()

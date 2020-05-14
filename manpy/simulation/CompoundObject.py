@@ -409,7 +409,7 @@ class CompoundObject(CoreObject, Queue):
             print(("Receiver object error: {0}".format(receiverError)))
 
         try:
-            self.outputTrace(activeEntity.name, "released " + self.objName)
+            self.outputTrace(activeEntity.name, activeEntity.id, "released " + self.objName)
         except TypeError:
             pass
         return activeEntity

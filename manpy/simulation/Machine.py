@@ -1073,7 +1073,7 @@ class Machine(CoreObject):
         # update totalWorking time for operator and also print trace
         if self.currentOperator:
             operator = self.currentOperator
-            self.outputTrace(operator.name, "ended a process in " + self.objName)
+            self.outputTrace(operator.name, operator.id, "ended a process in " + self.objName)
             operator.totalWorkingTime += (
                 self.env.now - operator.timeLastOperationStarted
             )
@@ -1088,7 +1088,7 @@ class Machine(CoreObject):
             # output to trace that the processing in the Machine self.objName ended
             try:
                 self.outputTrace(
-                    activeObjectQueue[0].name, "ended processing in " + self.objName
+                    activeObjectQueue[0].name, activeObjectQueue[0].id, "ended processing in " + self.objName
                 )
             except IndexError:
                 pass
@@ -1156,7 +1156,7 @@ class Machine(CoreObject):
             activeEntity = activeObjectQueue[0]
             self.printTrace(activeEntity.name, interrupted=self.objName)
             self.outputTrace(
-                activeObjectQueue[0].name, "Interrupted at " + self.objName
+                activeObjectQueue[0].name, activeObjectQueue[0].id, "Interrupted at " + self.objName
             )
             # recalculate the processing time left tinM
             if self.timeLastOperationStarted >= 0:
@@ -1200,6 +1200,7 @@ class Machine(CoreObject):
             if len(activeObjectQueue):
                 self.outputTrace(
                     activeObjectQueue[0].name,
+                    activeObjectQueue[0].id,
                     "passivated in "
                     + self.objName
                     + " for "
@@ -1444,12 +1445,12 @@ class Machine(CoreObject):
             operator.workingStation = None
             operator.operatorDedicatedTo = None
             self.toBeOperated = False
-            self.outputTrace(operator.name, "released from " + self.objName)
+            self.outputTrace(operator.name, operator.id, "released from " + self.objName)
         # XXX in case of skilled operators which stay at the same station should that change
         elif not operator.operatorDedicatedTo == self:
             operator.unAssign()  # set the flag operatorAssignedTo to None
             operator.workingStation = None
-            self.outputTrace(operator.name, "released from " + self.objName)
+            self.outputTrace(operator.name, operator.id, "released from " + self.objName)
             # if the Router is expecting for signal send it
             from .Globals import G
             from .SkilledOperatorRouter import SkilledRouter

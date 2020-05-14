@@ -102,7 +102,7 @@ class ShiftScheduler(ObjectInterruption):
 
             self.victim.timeLastShiftEnded = self.env.now
             self.victim.endShiftTimes.append(self.env.now)
-            self.outputTrace(self.victim.name, "is off shift")
+            self.outputTrace(self.victim.name, self.victim.name, "is off shift")
 
         while 1:
             if not self.victim.onShift:
@@ -121,7 +121,7 @@ class ShiftScheduler(ObjectInterruption):
                 )
                 self.victim.timeLastShiftStarted = self.env.now
                 self.victim.startShiftTimes.append(self.env.now)
-                self.outputTrace(self.victim.name, "is on shift")
+                self.outputTrace(self.victim.name, self.victim.name, "is on shift")
                 startShift = self.env.now
                 if issubclass(self.victim.__class__, CoreObject):
                     self.reactivateVictim()  # re-activate the victim in case it was interrupted
@@ -212,7 +212,7 @@ class ShiftScheduler(ObjectInterruption):
                 self.victim.onShift = False  # get the victim off-shift
                 self.victim.timeLastShiftEnded = self.env.now
                 self.victim.endShiftTimes.append(self.env.now)
-                self.outputTrace(self.victim.name, "is off shift")
+                self.outputTrace(self.victim.name, self.victim.name, "is off shift")
 
                 self.remainingShiftPattern.pop(0)
             # if there is no more shift data
