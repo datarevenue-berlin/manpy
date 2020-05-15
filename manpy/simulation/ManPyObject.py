@@ -142,12 +142,11 @@ class ManPyObject(object):
     # outputs message to the trace.xls
     # outputs message to the trace.xls. Format is (Simulation Time | Entity or Frame Name | message)
     # =======================================================================
-    @staticmethod
-    def outputTrace(entity_name: str, entity_id: str, message: str):
+    def outputTrace(self, entity_name: str, entity_id: str, message: str):
         from .Globals import G
 
-        if G.trace == True:  # output only if the user has selected to
-            G.trace_list.append([str(G.env.now), entity_id, entity_name, message])
+        if G.trace:
+            G.trace_list.append([str(G.env.now), entity_id, entity_id, self.id, self.name, message])
 
 
     # ===========================================================================
