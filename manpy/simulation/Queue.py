@@ -91,6 +91,7 @@ class Queue(CoreObject):
                 level <= self.capacity
             ), "the level cannot be bigger than the capacity of the queue"
         self.level = level
+        self.level_history = []
         from .Globals import G
 
         G.QueueList.append(self)
@@ -135,6 +136,7 @@ class Queue(CoreObject):
         self.initialSignalReceiver()
         while 1:
             self.printTrace(self.id, waitEvent="")
+            self.level_history.append((self.env.now, self.Res.users, len(self.Res.users)))
             # wait until the Queue can accept an entity and one predecessor requests it
             self.expectedSignals["canDispose"] = 1
             self.expectedSignals["isRequested"] = 1
