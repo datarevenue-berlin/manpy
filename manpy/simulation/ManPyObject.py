@@ -146,7 +146,7 @@ class ManPyObject(object):
         from .Globals import G
 
         if G.trace:
-            G.trace_list.append([str(G.env.now), entity_id, entity_id, self.id, self.name, message])
+            G.trace_list.append([G.env.now, entity_name, entity_id, self.id, self.name, message])
 
 
     # ===========================================================================

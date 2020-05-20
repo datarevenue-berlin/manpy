@@ -1088,7 +1088,7 @@ class Machine(CoreObject):
             # output to trace that the processing in the Machine self.objName ended
             try:
                 self.outputTrace(
-                    activeObjectQueue[0].name, activeObjectQueue[0].id, "ended processing in " + self.objName
+                    activeObjectQueue[0].name, activeObjectQueue[0].id, "Finished processing on " + self.id
                 )
             except IndexError:
                 pass
@@ -1445,12 +1445,12 @@ class Machine(CoreObject):
             operator.workingStation = None
             operator.operatorDedicatedTo = None
             self.toBeOperated = False
-            self.outputTrace(operator.name, operator.id, "released from " + self.objName)
+            self.outputTrace(operator.name, operator.id, "Left " + self.id)
         # XXX in case of skilled operators which stay at the same station should that change
         elif not operator.operatorDedicatedTo == self:
             operator.unAssign()  # set the flag operatorAssignedTo to None
             operator.workingStation = None
-            self.outputTrace(operator.name, operator.id, "released from " + self.objName)
+            self.outputTrace(operator.name, operator.id, "Left " + self.id)
             # if the Router is expecting for signal send it
             from .Globals import G
             from .SkilledOperatorRouter import SkilledRouter
