@@ -447,7 +447,6 @@ class CoreObject(ManPyObject):
         # update wipStatList
         if self.gatherWipStat:
             import numpy
-
             wip = 0
             for holdEntity in activeObjectQueue:
                 wip += holdEntity.numberOfUnits
