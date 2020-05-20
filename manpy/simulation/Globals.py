@@ -28,6 +28,7 @@ carries some global variables
 import xlwt
 from random import Random
 import simpy
+import pandas as pd
 
 # ===========================================================================
 # globals
@@ -122,6 +123,28 @@ class G:
     env = simpy.Environment()
 
     totalPulpTime = 0  # temporary to track how much time PuLP needs to run
+
+    @staticmethod
+    def get_simulation_results_dataframe() -> pd.DataFrame:
+        df = pd.DataFrame(
+            G.trace_list,
+            columns=["simulation_time", "entity_name", "entity_id", "station_id", "station_name", "message"],
+        )
+
+        return df
+
+    @staticmethod
+    def get_simulation_entities_history() -> pd.DataFrame:
+        dfs = []
+
+        for entity in G.EntityList:
+            history = entity.schedule
+            en = [entity.id] * len(history)
+            dfs.append(pd.DataFrame(history, index=en))
+
+        entity_hist = pd.concat(dfs, sort=False)
+
+        return entity_hist
 
 
 # =======================================================================
