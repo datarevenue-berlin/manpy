@@ -126,6 +126,22 @@ class G:
 
     @staticmethod
     def get_simulation_results_dataframe() -> pd.DataFrame:
+        """
+        Collects the logs from the traces in the simulation into a pandas dataframe.
+        This dataframe contains the columns:
+        - Simulation time
+        - Entity (aka Resource) name
+        - Entity ID
+        - Station (aka Machine) ID
+        - Station name
+        - Trace message
+
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe containing the described columns
+
+        """
         df = pd.DataFrame(
             G.trace_list,
             columns=["simulation_time", "entity_name", "entity_id", "station_id", "station_name", "message"],
@@ -135,6 +151,17 @@ class G:
 
     @staticmethod
     def get_simulation_entities_history() -> pd.DataFrame:
+        """
+        Iterates through all entities that passed through the simulation and collects
+        their history, i.e. all the objects they passed through and when they entered/left
+        them.
+
+        Returns
+        -------
+        pd.DataFrame
+            History containing all
+
+        """
         dfs = []
 
         for entity in G.EntityList:
@@ -143,6 +170,7 @@ class G:
             dfs.append(pd.DataFrame(history, index=en))
 
         entity_hist = pd.concat(dfs, sort=False)
+        entity_hist["station_id"] = entity_hist.station.apply(lambda x: x.id)
 
         return entity_hist
 
