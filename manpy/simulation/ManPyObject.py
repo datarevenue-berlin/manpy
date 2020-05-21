@@ -26,7 +26,7 @@ Created on 08 Sep 2014
 Class that acts as an abstract. It should have no instances. All ManPy objects inherit from it
 Also only abstract ManPy classes inherit directly (CoreObject, Entity, ObjectResource, ObjectInterruption)
 """
-
+import pandas as pd
 
 # ===========================================================================
 # the ManPy object
@@ -148,6 +148,18 @@ class ManPyObject(object):
         if G.trace:
             G.trace_list.append([G.env.now, entity_name, entity_id, self.id, self.name, message])
 
+        if G.snapshots:
+            entities_list = []
+            now = G.env.now
+
+            for obj in G.ObjList:
+                if obj.type == "Machine":
+                    entities = [x.id for x in obj.Res.users]
+                    entities_list.append((now, obj.id, entities))
+
+            snapshot = pd.DataFrame(entities_list, columns=["sim_time", "station_id", "entities"])
+            if not G.simulation_snapshots[-1].equals(snapshot):
+                G.simulation_snapshots.append(snapshot)
 
     # ===========================================================================
     # sends a signal

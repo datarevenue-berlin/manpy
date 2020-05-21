@@ -25,10 +25,13 @@ Created on 8 Nov 2012
 carries some global variables
 """
 
-import xlwt
 from random import Random
-import simpy
+
 import pandas as pd
+import simpy
+import xlwt
+import numpy
+
 
 # ===========================================================================
 # globals
@@ -36,7 +39,6 @@ import pandas as pd
 class G:
     seed = 1450  # the seed of the random number generator
     Rnd = Random(seed)  # random number generator
-    import numpy
 
     numpyRnd = numpy
 
@@ -45,6 +47,7 @@ class G:
     ObjectResourceList = []
     ObjectInterruptionList = []
     RouterList = []
+    simulation_snapshots = [pd.DataFrame()]
 
     numberOfReplications = 1  # the number of replications default=1git
     confidenceLevel = 0.9  # the confidence level default=90%
@@ -56,6 +59,7 @@ class G:
 
     # data for the trace output in excel
     trace = ""  # this is written from input. If it is "Yes" then you write to trace, else we do not
+    snapshots = False
     traceIndex = 0  # index that shows in what row we are
     sheetIndex = 1  # index that shows in what sheet we are
     traceFile = xlwt.Workbook()  # create excel file
@@ -498,10 +502,11 @@ def getPhrase():
 
 
 def runSimulation(
-    objectList=[], maxSimTime=100, numberOfReplications=1, trace="No", seed=1
+    objectList=[], maxSimTime=100, numberOfReplications=1, trace="No", snapshots=False, seed=1
 ):
     G.numberOfReplications = numberOfReplications
     G.trace = trace
+    G.snapshots = snapshots
     G.maxSimTime = float(maxSimTime)
     G.seed = seed
 
