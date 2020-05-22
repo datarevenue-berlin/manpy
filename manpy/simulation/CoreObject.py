@@ -52,6 +52,9 @@ class CoreObject(ManPyObject):
         self.SettingUp = []
         self.OnBreak = []
 
+        # flag that locks the entry of an object so that it cannot receive entities
+        self.isLocked = False
+
         # list that holds the objectInterruptions that have this element as victim
         self.objectInterruptions = []
 
@@ -239,8 +242,6 @@ class CoreObject(ManPyObject):
         # attributes/indices used for printing the route, hold the cols corresponding to the object (entities route and operators route)
         self.station_col_inds = []
         self.op_col_indx = None
-        # flag that locks the entry of an object so that it cannot receive entities
-        self.isLocked = False
 
         # flag that shows if the object is processing state at any given time
         self.isProcessing = False
