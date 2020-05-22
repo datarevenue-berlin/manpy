@@ -333,7 +333,7 @@ class CoreObject(ManPyObject):
         self.offShiftTimeTryingToReleaseCurrentEntity = 0
 
         self.timeLastEntityLeft = self.env.now
-        self.outputTrace(entity.name, entity.id, "released " + self.objName)
+        self.outputTrace(entity.name, entity.id, "Left " + self.id)
 
         # append the time to schedule so that it can be read in the result
         # remember that every entity has it's schedule which is supposed to be updated every time
@@ -425,7 +425,7 @@ class CoreObject(ManPyObject):
         )  # this holds the name of the last entity that got into object
         # update the next list of the object
         self.updateNext(activeEntity)
-        self.outputTrace(activeEntity.name, activeEntity.id, "got into " + self.objName)
+        self.outputTrace(activeEntity.name, activeEntity.id, "Entered " + self.id)
         self.printTrace(activeEntity.name, enter=self.id)
         #         # if there are entities with requiredParts then check whether the requirements are fulfilled for them to proceed
         #         #     ass soon as a "buffer" receives an entity it controls if the entity is requested elsewhere,

@@ -25,9 +25,13 @@ Created on 8 Nov 2012
 carries some global variables
 """
 
-import xlwt
 from random import Random
+
+import pandas as pd
 import simpy
+import xlwt
+import numpy
+
 
 # ===========================================================================
 # globals
@@ -35,7 +39,6 @@ import simpy
 class G:
     seed = 1450  # the seed of the random number generator
     Rnd = Random(seed)  # random number generator
-    import numpy
 
     numpyRnd = numpy
 
@@ -44,6 +47,7 @@ class G:
     ObjectResourceList = []
     ObjectInterruptionList = []
     RouterList = []
+    simulation_snapshots = [pd.DataFrame()]
 
     numberOfReplications = 1  # the number of replications default=1git
     confidenceLevel = 0.9  # the confidence level default=90%
@@ -55,6 +59,7 @@ class G:
 
     # data for the trace output in excel
     trace = ""  # this is written from input. If it is "Yes" then you write to trace, else we do not
+    snapshots = False
     traceIndex = 0  # index that shows in what row we are
     sheetIndex = 1  # index that shows in what sheet we are
     traceFile = xlwt.Workbook()  # create excel file
@@ -122,6 +127,56 @@ class G:
     env = simpy.Environment()
 
     totalPulpTime = 0  # temporary to track how much time PuLP needs to run
+
+    @staticmethod
+    def get_simulation_results_dataframe() -> pd.DataFrame:
+        """
+        Collects the logs from the traces in the simulation into a pandas dataframe.
+        This dataframe contains the columns:
+        - Simulation time
+        - Entity (aka Resource) name
+        - Entity ID
+        - Station (aka Machine) ID
+        - Station name
+        - Trace message
+
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe containing the described columns
+
+        """
+        df = pd.DataFrame(
+            G.trace_list,
+            columns=["simulation_time", "entity_name", "entity_id", "station_id", "station_name", "message"],
+        )
+
+        return df
+
+    @staticmethod
+    def get_simulation_entities_history() -> pd.DataFrame:
+        """
+        Iterates through all entities that passed through the simulation and collects
+        their history, i.e. all the objects they passed through and when they entered/left
+        them.
+
+        Returns
+        -------
+        pd.DataFrame
+            History containing all
+
+        """
+        dfs = []
+
+        for entity in G.EntityList:
+            history = entity.schedule
+            en = [entity.id] * len(history)
+            dfs.append(pd.DataFrame(history, index=en))
+
+        entity_hist = pd.concat(dfs, sort=False)
+        entity_hist["station_id"] = entity_hist.station.apply(lambda x: x.id)
+
+        return entity_hist
 
 
 # =======================================================================
@@ -447,10 +502,11 @@ def getPhrase():
 
 
 def runSimulation(
-    objectList=[], maxSimTime=100, numberOfReplications=1, trace="No", seed=1
+    objectList=[], maxSimTime=100, numberOfReplications=1, trace="No", snapshots=False, seed=1
 ):
     G.numberOfReplications = numberOfReplications
     G.trace = trace
+    G.snapshots = snapshots
     G.maxSimTime = float(maxSimTime)
     G.seed = seed
 
