@@ -185,7 +185,7 @@ class Machine(CoreObject):
         CoreObject.initialize(self)
 
         # initialize the internal Queue (type Resource) of the Machine
-        self.Res = simpy.Resource(self.env, capacity=1)
+        self.Res = simpy.Resource(self.env, capacity=self.capacity)
         # initiate the Broker and the router
         self.createBroker()
         self.createRouter()
@@ -1089,7 +1089,7 @@ class Machine(CoreObject):
             # output to trace that the processing in the Machine self.objName ended
             try:
                 self.outputTrace(
-                    activeObjectQueue[0].name, activeObjectQueue[0].id, "Finished processing on " + self.id
+                    activeObjectQueue[0].name, activeObjectQueue[0].id, "Finished processing on " + str(self.id)
                 )
             except IndexError:
                 pass
@@ -1447,12 +1447,12 @@ class Machine(CoreObject):
             operator.workingStation = None
             operator.operatorDedicatedTo = None
             self.toBeOperated = False
-            self.outputTrace(operator.name, operator.id, "Left " + self.id)
+            self.outputTrace(operator.name, operator.id, "Left " + str(self.id))
         # XXX in case of skilled operators which stay at the same station should that change
         elif not operator.operatorDedicatedTo == self:
             operator.unAssign()  # set the flag operatorAssignedTo to None
             operator.workingStation = None
-            self.outputTrace(operator.name, operator.id, "Left " + self.id)
+            self.outputTrace(operator.name, operator.id, "Left " + str(self.id))
             # if the Router is expecting for signal send it
             from .Globals import G
             from .SkilledOperatorRouter import SkilledRouter
