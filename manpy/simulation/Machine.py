@@ -185,7 +185,7 @@ class Machine(CoreObject):
         CoreObject.initialize(self)
 
         # initialize the internal Queue (type Resource) of the Machine
-        self.Res = simpy.Resource(self.env, capacity=1)
+        self.Res = simpy.Resource(self.env, capacity=self.capacity)
         # initiate the Broker and the router
         self.createBroker()
         self.createRouter()

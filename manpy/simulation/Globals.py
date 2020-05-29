@@ -366,6 +366,7 @@ def setWIP(entityList):
                 stationClass = entity.currentStation.__class__.__name__
                 if stationClass in [
                     "ProductionPoint",
+                    "ConveyorMachine",
                     "Machine",
                     "BatchScrapMachine",
                     "MachineJobShop",

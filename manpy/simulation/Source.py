@@ -222,6 +222,8 @@ class Source(CoreObject):
     #                          creates an Entity
     # ============================================================================
     def createEntity(self):
+        from .Globals import G
+
         self.printTrace(self.id, create="")
         return self.item(
             id=self.item.type + str(G.numberOfEntities),
