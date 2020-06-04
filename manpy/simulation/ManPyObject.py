@@ -116,7 +116,7 @@ class ManPyObject(object):
 
         time = G.env.now
         charLimit = 60
-        remainingChar = charLimit - len(entity) - len(str(time))
+        remainingChar = charLimit - len(str(entity)) - len(str(time))
         if G.console == "Yes":
             #print(time, entity, end=" ")
             for key in kw:
