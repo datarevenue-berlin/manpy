@@ -28,6 +28,7 @@ Models a machine that can also have failures
 # from SimPy.Simulation import Process, Resource, SimEvent
 # from SimPy.Simulation import activate, passivate, waituntil, now, hold, request, release, waitevent
 import simpy
+import numpy as np
 
 from .Failure import Failure
 from .CoreObject import CoreObject
@@ -1164,11 +1165,12 @@ class Machine(CoreObject):
                 self.tinM = self.tinM - (self.env.now - self.timeLastOperationStarted)
                 self.timeToEndCurrentOperation = self.env.now + self.tinM
                 if (
-                    self.tinM == 0
+                    np.isclose(self.tinM, 0)
                 ):  # sometimes the failure may happen exactly at the time that the processing would finish
                     # this may produce disagreement with the simul8 because in both SimPy and Simul8
                     # it seems to be random which happens 1st
                     # this should not appear often to stochastic models though where times are random
+                    self.tinM = 0
                     self.interruption = True
         # start counting the down time at breatTime dummy variable
         self.breakTime = self.env.now  # dummy variable that the interruption happened
