@@ -136,7 +136,8 @@ class Queue(CoreObject):
         self.initialSignalReceiver()
         while 1:
             self.printTrace(self.id, waitEvent="")
-            self.level_history.append((self.env.now, self.id, self.Res.users, len(self.Res.users)))
+            entities = [ent.id for ent in self.Res.users]
+            self.level_history.append((self.env.now, self.id, entities, len(self.Res.users)))
             # wait until the Queue can accept an entity and one predecessor requests it
             self.expectedSignals["canDispose"] = 1
             self.expectedSignals["isRequested"] = 1
