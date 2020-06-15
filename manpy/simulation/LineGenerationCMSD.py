@@ -43,7 +43,7 @@ from .Part import Part
 from .Frame import Frame
 from .Assembly import Assembly
 from .Dismantle import Dismantle
-from .Conveyer import Conveyer
+from .Conveyor import Conveyor
 from .Job import Job
 from .MachineJobShop import MachineJobShop
 from .QueueJobShop import QueueJobShop

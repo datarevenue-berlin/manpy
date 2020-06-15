@@ -148,7 +148,14 @@ class G:
         """
         df = pd.DataFrame(
             G.trace_list,
-            columns=["simulation_time", "entity_name", "entity_id", "station_id", "station_name", "message"],
+            columns=[
+                "simulation_time",
+                "entity_name",
+                "entity_id",
+                "station_id",
+                "station_name",
+                "message",
+            ],
         )
 
         return df
@@ -504,7 +511,13 @@ def getPhrase():
 
 
 def runSimulation(
-    objectList=[], maxSimTime=100, numberOfReplications=1, trace="No", snapshots=False, seed=1
+    objectList=[],
+    maxSimTime=100,
+    numberOfReplications=1,
+    trace="No",
+    snapshots=False,
+    seed=1,
+    env=simpy.Environment(),
 ):
     G.numberOfReplications = numberOfReplications
     G.trace = trace
@@ -542,7 +555,7 @@ def runSimulation(
             1  # increment the seed so that we get different random numbers in each run.
         )
 
-        G.env = simpy.Environment()  # define a simpy environment
+        G.env = env
         # this is where all the simulation object 'live'
 
         G.EntityList = []
