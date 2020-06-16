@@ -374,6 +374,7 @@ def setWIP(entityList):
                 if stationClass in [
                     "ProductionPoint",
                     "ConveyorMachine",
+                    "ConveyorPoint",
                     "Machine",
                     "BatchScrapMachine",
                     "MachineJobShop",
