@@ -60,6 +60,13 @@ class ScheduledMaintenance(ObjectInterruption):
         # the victim can be 'interrupted', 'loaded' or 'emptied' when the maintenance interruption happens
         self.endStatus = endStatus
 
+    def __repr__(self):
+        rep = f"ScheduledMaintenance(victim={self.victim}," \
+              f" start={self.start}," \
+              f" duration={self.duration})"
+        return rep
+
+
     # =======================================================================
     # initialize for every replications
     # =======================================================================

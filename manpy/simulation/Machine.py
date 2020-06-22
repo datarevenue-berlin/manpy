@@ -1161,7 +1161,8 @@ class Machine(CoreObject):
             )
             # recalculate the processing time left tinM
             if self.timeLastOperationStarted >= 0:
-                self.tinM = self.tinM - (self.env.now - self.timeLastOperationStarted)
+                self.tinM = round(self.tinM - (self.env.now - self.timeLastOperationStarted), 4)
+
                 self.timeToEndCurrentOperation = self.env.now + self.tinM
                 if (
                     self.tinM == 0
