@@ -517,7 +517,7 @@ def runSimulation(
     trace="No",
     snapshots=False,
     seed=1,
-    env=simpy.Environment(),
+    env=None,
 ):
     G.numberOfReplications = numberOfReplications
     G.trace = trace
@@ -555,7 +555,7 @@ def runSimulation(
             1  # increment the seed so that we get different random numbers in each run.
         )
 
-        G.env = env
+        G.env = env or simpy.Environment()
         # this is where all the simulation object 'live'
 
         G.EntityList = []

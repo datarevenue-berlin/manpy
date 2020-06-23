@@ -66,6 +66,11 @@ class ShiftScheduler(ObjectInterruption):
         self.rolling = rolling
         self.lastOffShiftDuration = lastOffShiftDuration
 
+    def __repr__(self):
+        rep = f"ShiftScheduler(victim={self.victim}," \
+              f" name={self.name}," \
+              f" shiftPattern={self.shiftPattern})"
+        return rep
     # =======================================================================
     # initialize for every replications
     # =======================================================================
