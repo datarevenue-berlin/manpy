@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [ ]
+requirements = ['simpy', 'pandas']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -35,11 +35,11 @@ setup(
     include_package_data=True,
     keywords='manpy',
     name='manpy',
-    packages=find_packages(include=['manpy']),
+    packages=find_packages(),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/pedrocwb/manpy',
+    url='https://github.com/datarevenue-berlin/manpy',
     version = versioneer.get_version(),
     cmdclass = versioneer.get_cmdclass(),
     zip_safe=False,
