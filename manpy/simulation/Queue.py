@@ -136,8 +136,6 @@ class Queue(CoreObject):
         self.initialSignalReceiver()
         while 1:
             self.printTrace(self.id, waitEvent="")
-            entities = [ent.id for ent in self.Res.users]
-            self.level_history.append((self.env.now, self.id, entities, len(self.Res.users)))
             # wait until the Queue can accept an entity and one predecessor requests it
             self.expectedSignals["canDispose"] = 1
             self.expectedSignals["isRequested"] = 1
@@ -210,6 +208,8 @@ class Queue(CoreObject):
     #                    removes an entity from the Object
     # =======================================================================
     def removeEntity(self, entity=None):
+        entities = [ent.id for ent in self.Res.users]
+        self.level_history.append((self.env.now, self.id, entities, len(self.Res.users)))
         activeEntity = CoreObject.removeEntity(self, entity)  # run the default method
         if self.canAccept():
             self.signalGiver()
@@ -253,6 +253,8 @@ class Queue(CoreObject):
     #                the predecessor index points to
     # =======================================================================
     def getEntity(self):
+        entities = [ent.id for ent in self.Res.users]
+        self.level_history.append((self.env.now, self.id, entities, len(self.Res.users)))
         activeEntity = CoreObject.getEntity(self)  # run the default behavior
         # if the level is reached then try to signal the Router to reallocate the operators
         try:
