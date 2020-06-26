@@ -149,7 +149,8 @@ class ManPyObject(object):
             G.trace_list.append([G.env.now, entity_name, entity_id, self.id, self.name, message])
 
         if self.type == "Machine":
-            self.processed_entities.append((G.env.now, entity_id))
+            if "Left" in message:
+                self.processed_entities.append((G.env.now, entity_id))
 
         if self.type == "Queue":
             entities = [ent.id for ent in self.Res.users]
