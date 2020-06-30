@@ -1359,7 +1359,6 @@ class Machine(CoreObject):
     # removes an entity from the Machine
     # =======================================================================
     def removeEntity(self, entity=None):
-        self.processed_entities.append((self.env.now, entity.id))
         activeEntity = CoreObject.removeEntity(self, entity)  # run the default method
         self.waitToDispose = False  # update the waitToDispose flag
         # if the Machine canAccept then signal a giver
