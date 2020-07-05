@@ -375,6 +375,7 @@ def setWIP(entityList):
                     "ProductionPoint",
                     "ConveyorMachine",
                     "ConveyorPoint",
+                    "ConditionalPoint",
                     "Machine",
                     "BatchScrapMachine",
                     "MachineJobShop",
