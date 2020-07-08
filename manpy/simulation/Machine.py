@@ -698,8 +698,9 @@ class Machine(CoreObject):
                     transmitter, eventTime = self.isRequested.value
                     self.printTrace(self.id, isRequested=transmitter.id)
                     assert (
-                        eventTime == self.env.now
-                    ), "isRequested was triggered earlier, not now"
+                        eventTime <= self.env.now
+                    ), f"isRequested was triggered earlier, not now. Event time: {eventTime}, Now: {self.env.now}, " \
+                       f"Id: {self.id}, transmitter: {transmitter.id}"
                     assert (
                         transmitter == self.giver
                     ), "the giver is not the requestingObject"
