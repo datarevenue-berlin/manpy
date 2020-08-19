@@ -65,7 +65,7 @@ class Machine(CoreObject):
         canDeliverOnInterruption=False,
         technology=None,
         priority=0,
-        **kw
+        **kw,
     ):
         self.type = "Machine"  # String that shows the type of object
         CoreObject.__init__(self, id, name)
@@ -697,10 +697,10 @@ class Machine(CoreObject):
                 if self.isRequested in receivedEvent:
                     transmitter, eventTime = self.isRequested.value
                     self.printTrace(self.id, isRequested=transmitter.id)
-                    assert (
-                        eventTime <= self.env.now
-                    ), f"isRequested was triggered earlier, not now. Event time: {eventTime}, Now: {self.env.now}, " \
-                       f"Id: {self.id}, transmitter: {transmitter.id}"
+                    assert eventTime <= self.env.now, (
+                        f"isRequested was triggered earlier, not now. Event time: {eventTime}, Now: {self.env.now}, "
+                        f"Id: {self.id}, transmitter: {transmitter.id}"
+                    )
                     assert (
                         transmitter == self.giver
                     ), "the giver is not the requestingObject"
@@ -960,13 +960,16 @@ class Machine(CoreObject):
                     self.expectedSignals["canDispose"] = 1
                     self.expectedSignals["entityRemoved"] = 1
                     self.timeLastBlockageStarted = self.env.now  # blockage is starting
+
                     # wait the event canDispose, this means that the station can deliver the item to successor
                     self.printTrace(
                         self.id, waitEvent="(canDispose or interruption start)"
                     )
+
                     receivedEvent = yield self.env.any_of(
                         [self.canDispose, self.interruptionStart, self.entityRemoved]
                     )
+
                     # if there was interruption
                     # TODO not good implementation
                     if self.interruptionStart in receivedEvent:
@@ -1030,11 +1033,14 @@ class Machine(CoreObject):
                             self.canDispose = self.env.event()
                             continue
                         assert eventTime == self.env.now, "canDispose signal is late"
+
                         self.canDispose = self.env.event()
                         # try to signal a receiver, if successful then proceed to get an other entity
-                        if self.signalReceiver():
+                        if self.signalReceiver(transmitter):
                             break
+
                     if self.entityRemoved in receivedEvent:
+
                         transmitter, eventTime = self.entityRemoved.value
                         self.printTrace(self.id, entityRemoved=eventTime)
                         assert (
@@ -1076,7 +1082,9 @@ class Machine(CoreObject):
         # update totalWorking time for operator and also print trace
         if self.currentOperator:
             operator = self.currentOperator
-            self.outputTrace(operator.name, operator.id, "ended a process in " + self.objName)
+            self.outputTrace(
+                operator.name, operator.id, "ended a process in " + self.objName
+            )
             operator.totalWorkingTime += (
                 self.env.now - operator.timeLastOperationStarted
             )
@@ -1091,7 +1099,9 @@ class Machine(CoreObject):
             # output to trace that the processing in the Machine self.objName ended
             try:
                 self.outputTrace(
-                    activeObjectQueue[0].name, activeObjectQueue[0].id, "Finished processing on " + str(self.id)
+                    activeObjectQueue[0].name,
+                    activeObjectQueue[0].id,
+                    "Finished processing on " + str(self.id),
                 )
             except IndexError:
                 pass
@@ -1159,15 +1169,19 @@ class Machine(CoreObject):
             activeEntity = activeObjectQueue[0]
             self.printTrace(activeEntity.name, interrupted=self.objName)
             self.outputTrace(
-                activeObjectQueue[0].name, activeObjectQueue[0].id, "Interrupted at " + self.objName
+                activeObjectQueue[0].name,
+                activeObjectQueue[0].id,
+                "Interrupted at " + self.objName,
             )
             # recalculate the processing time left tinM
             if self.timeLastOperationStarted >= 0:
-                self.tinM = round(self.tinM - (self.env.now - self.timeLastOperationStarted), 4)
+                self.tinM = round(
+                    self.tinM - (self.env.now - self.timeLastOperationStarted), 4
+                )
 
                 self.timeToEndCurrentOperation = self.env.now + self.tinM
-                if (
-                    np.isclose(self.tinM, 0)
+                if np.isclose(
+                    self.tinM, 0
                 ):  # sometimes the failure may happen exactly at the time that the processing would finish
                     # this may produce disagreement with the simul8 because in both SimPy and Simul8
                     # it seems to be random which happens 1st

@@ -452,6 +452,7 @@ class CoreObject(ManPyObject):
         # update wipStatList
         if self.gatherWipStat:
             import numpy
+
             wip = 0
             for holdEntity in activeObjectQueue:
                 wip += holdEntity.numberOfUnits
@@ -566,7 +567,6 @@ class CoreObject(ManPyObject):
     # signal the successor that the object can dispose an entity
     # =======================================================================
     def signalReceiver(self, transmitter=None):
-
 
         possibleReceivers = self.findReceiversFor(self)
 
