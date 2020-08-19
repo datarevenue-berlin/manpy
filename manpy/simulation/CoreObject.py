@@ -396,6 +396,7 @@ class CoreObject(ManPyObject):
         # according to the scheduling rule if applied
         giverObject.sortEntitiesForReceiver(self)
         giverObjectQueue = giverObject.Res.users
+
         # if the giverObject is blocked then unBlock it
         if giverObject.exitIsAssignedTo():
             giverObject.unAssignExit()
@@ -404,10 +405,13 @@ class CoreObject(ManPyObject):
             self.unAssignEntry()
         activeEntity = self.identifyEntityToGet()
         activeEntity.currentStation = self
+
         # update the receiver of the giverObject
         giverObject.receiver = self
+
         # remove entity from the giver
         activeEntity = giverObject.removeEntity(entity=self.identifyEntityToGet())
+
         # variable that holds the last giver; used in case of preemption
         self.lastGiver = self.giver
         #         #get the entity from the previous object and put it in front of the activeQ
@@ -561,11 +565,20 @@ class CoreObject(ManPyObject):
     # =======================================================================
     # signal the successor that the object can dispose an entity
     # =======================================================================
-    def signalReceiver(self):
+    def signalReceiver(self, transmitter=None):
+
+
         possibleReceivers = self.findReceiversFor(self)
-        if possibleReceivers:
-            receiver = self.selectReceiver(possibleReceivers)
+
+        if possibleReceivers or transmitter:
+            if transmitter:
+                receiver = transmitter
+                possibleReceivers = [transmitter]
+            else:
+                receiver = self.selectReceiver(possibleReceivers)
+
             receiversGiver = self
+
             # perform the checks that canAcceptAndIsRequested used to perform and update activeCallersList or assignExit and operatorPool
             while not receiver.canAcceptAndIsRequested(receiversGiver):
                 possibleReceivers.remove(receiver)
