@@ -567,16 +567,11 @@ class CoreObject(ManPyObject):
     # signal the successor that the object can dispose an entity
     # =======================================================================
     def signalReceiver(self, transmitter=None):
-
-        possibleReceivers = self.findReceiversFor(self)
-
-        if possibleReceivers or transmitter:
-            if transmitter:
-                receiver = transmitter
-                possibleReceivers = [transmitter]
-            else:
-                receiver = self.selectReceiver(possibleReceivers)
-
+        possibleReceivers = (
+            [transmitter] if transmitter else self.findReceiversFor(self)
+        )
+        if possibleReceivers:
+            receiver = self.selectReceiver(possibleReceivers)
             receiversGiver = self
 
             # perform the checks that canAcceptAndIsRequested used to perform and update activeCallersList or assignExit and operatorPool
