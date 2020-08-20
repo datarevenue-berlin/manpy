@@ -140,6 +140,7 @@ class Queue(CoreObject):
             self.expectedSignals["canDispose"] = 1
             self.expectedSignals["isRequested"] = 1
             self.expectedSignals["loadOperatorAvailable"] = 1
+
             receivedEvent = yield self.env.any_of(
                 [self.isRequested, self.canDispose, self.loadOperatorAvailable]
             )
@@ -148,21 +149,26 @@ class Queue(CoreObject):
             if self.isRequested in receivedEvent:
                 transmitter, eventTime = self.isRequested.value
                 self.printTrace(self.id, isRequested=transmitter.id)
+
                 # reset the isRequested signal parameter
                 self.isRequested = self.env.event()
+
                 self.getEntity()
                 # if entity just got to the dummyQ set its startTime as the current time
                 if self.isDummy:
                     activeObjectQueue[0].startTime = self.env.now
+
             # if the queue received an loadOperatorIsAvailable (from Router) with signalparam time
             if self.loadOperatorAvailable in receivedEvent:
                 transmitter, eventTime = self.loadOperatorAvailable.value
                 self.loadOperatorAvailable = self.env.event()
+
             # if the queue received an canDispose with signalparam time, this means that the signals was sent from a MouldAssemblyBuffer
             if self.canDispose in receivedEvent:
                 transmitter, eventTime = self.canDispose.value
                 self.printTrace(self.id, canDispose="")
                 self.canDispose = self.env.event()
+
             # if the event that activated the thread is canDispose then signalReceiver
             if self.haveToDispose():
                 if self.receiver:
@@ -172,6 +178,7 @@ class Queue(CoreObject):
                             self.signalGiver()
                     continue
                 self.signalReceiver()
+
             # signal the giver (for synchronization issues)
             self.signalGiver()
 
@@ -201,6 +208,7 @@ class Queue(CoreObject):
         # if we have only one possible receiver just check if the Queue holds one or more entities
         if callerObject == None:
             return len(activeObjectQueue) > 0
+
         thecaller = callerObject
         return len(activeObjectQueue) > 0 and thecaller.isInRouteOf(self)
 
@@ -256,6 +264,7 @@ class Queue(CoreObject):
         entities = [ent.id for ent in self.Res.users]
         self.level_history.append((self.env.now, self.id, entities, len(self.Res.users)))
         activeEntity = CoreObject.getEntity(self)  # run the default behavior
+
         # if the level is reached then try to signal the Router to reallocate the operators
         try:
             if self.level:
